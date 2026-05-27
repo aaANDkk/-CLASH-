@@ -7,7 +7,7 @@
 * **⚡ 独创·隐形组内自动测速**：在“香港”、“日本”、“美国”、“新加坡”等传统手动选择组内部，完美内嵌了专属的 `url-test` 自动测速节点，且**在主界面完全隐藏了冗余的多余卡片**。既保证了界面的极简清爽，又实现了区域内的智能低延迟切换。
 * **🤖 独立 AI 规则分流**：全面覆盖 OpenAI (ChatGPT)、Anthropic (Claude)、xAI (Grok)、Google (Gemini)、Perplexity、Midjourney 等主流 AI 服务，独立分组，一键切换。
 * **🎬 丰富流媒体支持**：内置 TikTok、YouTube、Netflix、Spotify、巴哈姆特等独立策略组，轻松满足追剧与听歌需求。
-* **🎯 智能规则兜底**：基于全球及国内权威规则集（GeoData 模式），完美实现国内直连、海外自动分流，广告与局域网智能拦截。
+* **🎯 智能规则兜底**：基于全球及国内权威规则集（GeoData 模式），完美实现国内直连、海外自动分流。
 
 ---
 
@@ -22,12 +22,12 @@
 
 ```yaml
 proxy-providers:
-  良心云:
+  provider1:
     url: "你的机场A的订阅链接"  # 👈 替换这里
     type: http
     interval: 86400
     # ... 其他保持默认
-  维云云:
+  provider2:
     url: "你的机场B的订阅链接"  # 👈 替换这里
     type: http
     interval: 86400
