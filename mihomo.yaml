@@ -87,12 +87,13 @@ dns:
     - https://dns.alidns.com/dns-query
 
 proxy-groups:
-  # ==================== 1. 后台测速组（隐形，负责组内自动选择的逻辑） ====================
+  # ==================== 1. 后台测速组（严格过滤，严防中转节点混淆） ====================
   - name: "🇭🇰 香港-自动选择"
     type: url-test
     include-all: true
     exclude-type: direct
-    filter: "(?i)港|hk|hongkong|hong kong"
+    # 匹配香港，但排除任何包含台湾、日本、美国、新加坡、韩国、欧洲等落地关键字的节点
+    filter: "(?i)(?=.*(港|hk|hongkong|hong kong))(?!.*(台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|united|kr|韩国|eu|欧洲))"
     tolerance: 10
     hidden: true
 
@@ -132,7 +133,7 @@ proxy-groups:
     type: url-test
     include-all: true
     exclude-type: direct
-    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|hong kong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates|united states)).*"
     tolerance: 10
     hidden: true
 
@@ -164,7 +165,7 @@ proxy-groups:
     exclude-type: direct
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/World_Map.png"
 
-  # ==================== 3. 功能分流分组（已统一选项与顺序） ====================
+  # ==================== 3. 功能分流分组（统一选项与顺序） ====================
   - name: AI
     type: select
     proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
@@ -283,7 +284,6 @@ rules:
   - DOMAIN-SUFFIX,grok.com,AI
   - DOMAIN-SUFFIX,grok.x.ai,AI
   - DOMAIN-SUFFIX,x.ai,AI
-  - DOMAIN-SUFFIX,gemini.google.com,AI
   - DOMAIN-SUFFIX,perplexity.ai,AI
   - DOMAIN-SUFFIX,midjourney.com,AI
   
