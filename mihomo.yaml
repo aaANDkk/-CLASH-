@@ -164,66 +164,58 @@ proxy-groups:
     exclude-type: direct
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/World_Map.png"
 
-  # ==================== 3. 功能分流分组 ====================
+  # ==================== 3. 功能分流分组（已统一选项与顺序） ====================
   - name: AI
     type: select
-    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png"
 
   - name: TikTok
     type: select
-    proxies: [默认, 香港, 日本, 新加坡, 台湾, 美国, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png"
 
   - name: Google
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png"
 
   - name: YouTube
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png"
 
   - name: NETFLIX
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png"
 
   - name: Spotify
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png"
 
   - name: Github
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
   - name: 巴哈姆特
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bahamut.png"
 
   - name: 国内
     type: select
-    proxies:
-      [直连, 默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择]
+    proxies: [直连, 默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
 
   - name: 其他
     type: select
-    proxies:
-      [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
+    proxies: [默认, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 全部节点, 自动选择, 直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"
 
-  # ==================== 4. 地区可见分组（把对应的“隐形自动组”放到第一位，并嵌套全部节点过滤） ====================
+  # ==================== 4. 地区可见分组 ====================
   - name: 香港
     type: select
     use: [良心云, 维云云]
@@ -275,9 +267,10 @@ proxy-groups:
 rules:
   - GEOIP,lan,直连,no-resolve
 
-  # ==================== AI 服务规则 ====================
+  # ==================== TikTok 服务规则 ====================
   - GEOSITE,tiktok,TikTok
 
+  # ==================== AI 服务规则 ====================
   # 所有 AI 网站
   - DOMAIN-SUFFIX,openai.com,AI
   - DOMAIN-SUFFIX,chat.openai.com,AI
@@ -293,7 +286,15 @@ rules:
   - DOMAIN-SUFFIX,gemini.google.com,AI
   - DOMAIN-SUFFIX,perplexity.ai,AI
   - DOMAIN-SUFFIX,midjourney.com,AI
-
+  
+  # ---------- 针对 Gemini 手机 App 特别优化 ----------
+  - DOMAIN-SUFFIX,gemini.google.com,AI
+  - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,AI
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,AI
+  - DOMAIN-SUFFIX,alkalimaven-pa.googleapis.com,AI
+  - DOMAIN-KEYWORD,alkali,AI
+  # --------------------------------------------------
+  
   # 关键词兜底
   - DOMAIN-KEYWORD,chatgpt,AI
   - DOMAIN-KEYWORD,grok,AI
