@@ -33,7 +33,7 @@
 ## 🛠️ 使用与部署指南 (Deployment)
 
 ### 1. 准备工作
-由于本配置采用了多项 Mihomo 的前沿高级特性，请务必确保你的客户端使用的是较新版本的 **Mihomo (Clash Meta) 内核**（如 Clash Verge Rev、MetaCubeXD、Clash Nyanpasu 等）。
+由于本配置采用了多项 Mihomo 的前沿高级特性，请务必确保你的客户端使用的是较新版本的 **Mihomo (Clash Meta) 内核**（如 Clash Verge Rev、Flclash 等）。
 
 ### 2. 快速上线三步走
 1. **下载或复制** 本项目中的配置文件模板。
