@@ -118,6 +118,16 @@ dns:
     - "https://doh.pub/dns-query"
     - "https://dns.alidns.com/dns-query"
 
+# 新增 fallback
+  fallback:
+    - "https://1.1.1.1/dns-query"
+    - "https://8.8.8.8/dns-query"
+
+  # 新增 fallback-filter
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+
   # 新增：避免节点解析污染
   proxy-server-nameserver:
     - "https://dns.cloudflare.com/dns-query"
@@ -345,6 +355,7 @@ rules:
   - DOMAIN-KEYWORD,midjourney,AI
 
   # ==================== Google ====================
+  - AND,((NETWORK,udp),(GEOSITE,google)),REJECT # ✅ 正确的语法：拦截谷歌的 UDP (QUIC) 流量
 
   - DOMAIN-SUFFIX,gemini.google.com,Google全家桶
   - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,Google全家桶
