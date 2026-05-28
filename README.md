@@ -1,6 +1,4 @@
-**以下是优化后的完整 README 内容，可以直接复制使用：**
 
-```markdown
 # 🚀 Mihomo (Clash Meta) 节点分流➕订阅合并配置
 
 [![Kernel](https://img.shields.io/badge/Kernel-Mihomo%20(Clash%20Meta)-orange?style=flat-square)](https://github.com/MetaCubeX/mihomo)
@@ -81,4 +79,4 @@
 ---
 
 欢迎 Star 支持！有任何问题或优化建议欢迎 Issue / PR。
-```
+
