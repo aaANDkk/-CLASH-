@@ -250,6 +250,7 @@ proxy-groups:
       - 默认
       - 自动选择
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
+    hidden: true
 
   - {name: 其他, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"}
 
