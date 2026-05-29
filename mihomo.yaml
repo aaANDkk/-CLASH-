@@ -369,7 +369,7 @@ rules:
   - DOMAIN-KEYWORD,midjourney,AI
 
   # ==================== Google ====================
-  - AND,((NETWORK,udp),(GEOSITE,google)),REJECT # ✅ 正确的语法：拦截谷歌的 UDP (QUIC) 流量
+  - AND,((NETWORK,udp),(GEOSITE,google)),REJECT-DROP # ✅ 正确的语法：拦截谷歌的 UDP (QUIC) 流量
 
   - DOMAIN-SUFFIX,gemini.google.com,Google全家桶
   - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,Google全家桶
