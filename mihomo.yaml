@@ -163,7 +163,7 @@ proxy-groups:
 
   - name: "台湾-自动选择"
     type: url-test
-    use:[provider1, provider2]
+    use: [provider1, provider2]
     filter: "(?i)(台|tw|taiwan)"
     tolerance: 100
     hidden: true
