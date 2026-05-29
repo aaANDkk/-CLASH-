@@ -10,7 +10,7 @@ p: &p
     lazy: true
     url: "https://www.gstatic.com/generate_204"
     interval: 300
-    timeout: 2000                   # 🔴 新增：挂掉的节点最多只等2秒，防止网页卡死
+    timeout: 2000                   # 🔴 新增：挂掉的节点最多等2秒，防止网页卡死
 ######### 🚀 锚点定义区域 end #######
 
 proxy-providers:
@@ -255,6 +255,8 @@ proxy-groups:
   - {name: TikTok, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png"}
 
   - {name: 巴哈姆特, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bahamut.png"}
+
+  - {name: 哔哩哔哩, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/bilibili.png"}
   
   - {name: NETFLIX, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png"}
 
@@ -323,7 +325,6 @@ proxy-groups:
     filter: '(?i)(0\.[0-9]x|低倍)'
     proxies: ["低倍率-自动选择"]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png"
-
 rules:
 
   # ==================== 局域网 ====================
@@ -340,63 +341,32 @@ rules:
   - GEOSITE,youtube,YouTube
   - GEOSITE,github,Github
   - GEOSITE,netflix,NETFLIX
-  - GEOIP,netflix,NETFLIX
   - GEOSITE,bahamut,巴哈姆特
-  - GEOIP,bahamut,巴哈姆特
+  - GEOSITE,bilibili,哔哩哔哩
   - GEOSITE,spotify,Spotify
 
   # ==================== AI ====================
 
-  - DOMAIN-SUFFIX,openai.com,AI
-  - DOMAIN-SUFFIX,chatgpt.com,AI
-  - DOMAIN-SUFFIX,oaistatic.com,AI
-  - DOMAIN-SUFFIX,oaiusercontent.com,AI
-  - DOMAIN-SUFFIX,anthropic.com,AI
-  - DOMAIN-SUFFIX,claude.ai,AI
-  - DOMAIN-SUFFIX,claudestatic.com,AI
-  - DOMAIN-SUFFIX,x.ai,AI
-  - DOMAIN-SUFFIX,grok.com,AI
-  - DOMAIN-SUFFIX,perplexity.ai,AI
+  - GEOSITE,openai,AI         # 自动包含 chatgpt, oaistatic, oaiusercontent 等
+  - GEOSITE,anthropic,AI      # 自动包含 claude 及其所有静态资源域名
+  - GEOSITE,xai,AI            # 自动包含 x.ai, grok.com 等
+  - GEOSITE,perplexity,AI     # 自动包含 perplexity 相关域名
+  
+  # 换回后缀匹配，避免因本地数据库未收录 midjourney 而报错
   - DOMAIN-SUFFIX,midjourney.com,AI
   - DOMAIN-SUFFIX,midjourney.io,AI
+  - DOMAIN-KEYWORD,midjourney,AI
+  
+  # 独立/小众开发者工具
   - DOMAIN-SUFFIX,openrouter.ai,AI
   - DOMAIN-SUFFIX,devv.ai,AI
 
-  - DOMAIN-KEYWORD,chatgpt,AI
-  - DOMAIN-KEYWORD,grok,AI
-  - DOMAIN-KEYWORD,claude,AI
-  - DOMAIN-KEYWORD,perplexity,AI
-  - DOMAIN-KEYWORD,midjourney,AI
-
   # ==================== Google ====================
-  - AND,((NETWORK,udp),(GEOSITE,google)),REJECT-DROP # ✅ 正确的语法：拦截谷歌的 UDP (QUIC) 流量
+  
+  - AND,((NETWORK,udp),(GEOSITE,google)),REJECT-DROP # ✅ 拦截谷歌的 UDP (QUIC) 流量，强制走 TCP 代理更稳定
 
-  - DOMAIN-SUFFIX,gemini.google.com,Google全家桶
-  - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,Google全家桶
-  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,Google全家桶
-  - DOMAIN-SUFFIX,alkalimaven-pa.googleapis.com,Google全家桶
-
-  - DOMAIN-KEYWORD,alkali,Google全家桶
-
-  - DOMAIN-SUFFIX,google.com,Google全家桶
-  - DOMAIN-SUFFIX,googleapis.com,Google全家桶
-  - DOMAIN-SUFFIX,googleusercontent.com,Google全家桶
-  - DOMAIN-SUFFIX,gstatic.com,Google全家桶
-  - DOMAIN-SUFFIX,google-analytics.com,Google全家桶
-  - DOMAIN-SUFFIX,googletagmanager.com,Google全家桶
-  - DOMAIN-SUFFIX,android.com,Google全家桶
-  - DOMAIN-SUFFIX,ggpht.com,Google全家桶
-  - DOMAIN-SUFFIX,firebaseio.com,Google全家桶
-
-  - DOMAIN-SUFFIX,gvt1.com,Google全家桶
-  - DOMAIN-SUFFIX,gvt2.com,Google全家桶
-  - DOMAIN-SUFFIX,gvt3.com,Google全家桶
-  - DOMAIN-SUFFIX,googleplay.com,Google全家桶
-  - DOMAIN-SUFFIX,play.google.com,Google全家桶
-
-  - GEOSITE,google,Google全家桶
-  - GEOIP,google,Google全家桶
-
+  - GEOSITE,google,Google全家桶   # 这一行直接全包所有谷歌旗下子域名
+  - GEOIP,google,Google全家桶     # IP 兜底
 
   # ==================== 国内外兜底 ====================
 
