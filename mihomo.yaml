@@ -12,18 +12,9 @@ p: &p
     interval: 300
     timeout: 2000                   # 🔴 新增：挂掉的节点最多等2秒，防止网页卡死
 ######### 🚀 锚点定义区域 end #######
-# ==================== Rule Providers ====================
 
-rule-providers:
-  lan:
-    type: http
-    behavior: classical
-    format: yaml
-    url: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/lan.yaml"
-    path: ./ruleset/lan.yaml
-    interval: 86400
-    proxy: 直连
-    
+
+
 proxy-providers:
   provider1:
     <<: *p
@@ -172,7 +163,7 @@ proxy-groups:
 
   - name: "台湾-自动选择"
     type: url-test
-    use: [provider1, provider2]
+    use:[provider1, provider2]
     filter: "(?i)(台|tw|taiwan)"
     tolerance: 100
     hidden: true
@@ -213,7 +204,8 @@ proxy-groups:
   - name: "低倍率-自动选择"
     type: url-test
     use: [provider1, provider2]
-    filter: '(?i)(0\.[0-9]x|低倍)'
+    filter: '(?i)^(?!.*(剩|期|流量|已用|节|官|客)).*(0\.[0-9]+(x|倍率|倍)?|低倍)'
+
     tolerance: 100
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
@@ -333,13 +325,14 @@ proxy-groups:
   - name: 低倍率节点
     type: select
     use: [provider1, provider2]
-    filter: '(?i)(0\.[0-9]x|低倍)'
+    filter: '(?i)^(?!.*(剩|期|流量|已用|节|官|客)).*(0\.[0-9]+(x|倍率|倍)?|低倍)'
+
     proxies: ["低倍率-自动选择"]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png"
 rules:
 
-  # ==================== 局域网 ====================
-  - rule-set,lan,直连
+# ==================== 局域网（最优先） ====================
+
   - GEOSITE,private,直连
   - GEOIP,private,直连,no-resolve
 
