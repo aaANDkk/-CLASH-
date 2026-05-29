@@ -12,7 +12,18 @@ p: &p
     interval: 300
     timeout: 2000                   # 🔴 新增：挂掉的节点最多等2秒，防止网页卡死
 ######### 🚀 锚点定义区域 end #######
+# ==================== Rule Providers ====================
 
+rule-providers:
+  lan:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/lan.yaml"
+    path: ./ruleset/lan.yaml
+    interval: 86400
+    proxy: 直连
+    
 proxy-providers:
   provider1:
     <<: *p
@@ -328,7 +339,7 @@ proxy-groups:
 rules:
 
   # ==================== 局域网 ====================
-
+  - rule-set,lan,直连
   - GEOSITE,private,直连
   - GEOIP,private,直连,no-resolve
 
