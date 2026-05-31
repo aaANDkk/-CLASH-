@@ -1,6 +1,6 @@
 ######### 🚀 锚点定义区域 start #######
-# 1. 统一所有功能分流组的可选节点队列
-pr: &pr {type: select, proxies: [默认,自动选择, 全部节点, 直连, 香港, 台湾, 日本, 新加坡, 美国, 其它地区, 低倍率节点]}
+# 1. 统一所有功能分流组的可选节点队列（已新增“韩国”）
+pr: &pr {type: select, proxies: [默认, 自动选择, 全部节点, 直连, 香港, 台湾, 日本, 韩国, 新加坡, 美国, 其它地区, 低倍率节点]}
 
 # 2. 统一订阅源的高级健康检查参数（已应用 lazy 优化）
 p: &p
@@ -10,10 +10,8 @@ p: &p
     lazy: true
     url: "https://www.gstatic.com/generate_204"
     interval: 300
-    timeout: 2000                   # 🔴 新增：挂掉的节点最多等2秒，防止网页卡死
+    timeout: 2000               # 🔴 新增：挂掉的节点最多等2秒，防止网页卡死
 ######### 🚀 锚点定义区域 end #######
-
-
 
 proxy-providers:
   provider1:
@@ -177,10 +175,11 @@ proxy-groups:
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
 
-  - name: "美国-自动选择"
+  # ✨ 新增：韩国自动选择
+  - name: "韩国-自动选择"
     type: url-test
     use: [provider1, provider2]
-    filter: "(?i)(美|us|usa|unitedstates|united states|america|los angeles|silicon valley)"
+    filter: "(?i)(韩|韩国|首尔|kr|korea|south korea)"
     tolerance: 100
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
@@ -193,10 +192,20 @@ proxy-groups:
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
 
+  - name: "美国-自动选择"
+    type: url-test
+    use: [provider1, provider2]
+    filter: "(?i)(美|us|usa|unitedstates|united states|america|los angeles|silicon valley)"
+    tolerance: 100
+    hidden: true
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
+
+
+  # 🔄 修改：其它地区-自动选择（正则中已排除 🇰🇷|韩|kr|korea）
   - name: "其它地区-自动选择"
     type: url-test
     use: [provider1, provider2]
-    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates|官网|重置|到期|剩余|流量|机场|客服|套餐|订阅|版本)).*"
+    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇰🇷|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|韩|kr|korea|新|sg|singapore|美|us|unitedstates|官网|重置|到期|剩余|流量|机场|客服|套餐|订阅|版本)).*"
     tolerance: 100
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
@@ -205,13 +214,13 @@ proxy-groups:
     type: url-test
     use: [provider1, provider2]
     filter: '(?i)^(?!.*(剩|期|流量|已用|节|官|客)).*(0\.[0-9]+(x|倍率|倍)?|低倍)'
-
     tolerance: 100
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
 
   # ==================== 核心组 ====================
 
+  # 🔄 修改：默认组（已加入“韩国”）
   - name: 默认
     type: select
     proxies:
@@ -221,6 +230,7 @@ proxy-groups:
       - 香港
       - 台湾
       - 日本
+      - 韩国
       - 新加坡
       - 美国
       - 其它地区
@@ -301,12 +311,13 @@ proxy-groups:
     proxies: ["日本-自动选择"]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png"
 
-  - name: 美国
+  # ✨ 新增：韩国手动/自动选择组
+  - name: 韩国
     type: select
     use: [provider1, provider2]
-    filter: "(?i)(美|us|usa|unitedstates|united states|america|los angeles|silicon valley)"
-    proxies: ["美国-自动选择"]
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"
+    filter: "(?i)(韩|韩国|首尔|kr|korea|south korea)"
+    proxies: ["韩国-自动选择"]
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Korea.png"
 
   - name: 新加坡
     type: select
@@ -315,10 +326,18 @@ proxy-groups:
     proxies: ["新加坡-自动选择"]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png"
 
+  - name: 美国
+    type: select
+    use: [provider1, provider2]
+    filter: "(?i)(美|us|usa|unitedstates|united states|america|los angeles|silicon valley)"
+    proxies: ["美国-自动选择"]
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"
+
+  # 🔄 修改：其它地区（正则中已排除 🇰🇷|韩|kr|korea）
   - name: 其它地区
     type: select
     use: [provider1, provider2]
-    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates|官网|重置|到期|剩余|流量|机场|客服|套餐|订阅|版本)).*"
+    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇰🇷|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|韩|kr|korea|新|sg|singapore|美|us|unitedstates|官网|重置|到期|剩余|流量|机场|客服|套餐|订阅|版本)).*"
     proxies: ["其它地区-自动选择"]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"
 
@@ -326,22 +345,18 @@ proxy-groups:
     type: select
     use: [provider1, provider2]
     filter: '(?i)^(?!.*(剩|期|流量|已用|节|官|客)).*(0\.[0-9]+(x|倍率|倍)?|低倍)'
-
     proxies: ["低倍率-自动选择"]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png"
+
 rules:
-
 # ==================== 局域网（最优先） ====================
-
   - GEOSITE,private,直连
   - GEOIP,private,直连,no-resolve
 
   # ==================== TikTok ====================
-
   - GEOSITE,tiktok,TikTok
 
   # ==================== 分组服务 ====================
-
   - GEOSITE,youtube,YouTube
   - GEOSITE,github,Github
   - GEOSITE,netflix,NETFLIX
@@ -350,7 +365,6 @@ rules:
   - GEOSITE,spotify,Spotify
 
   # ==================== AI ====================
-
   - GEOSITE,openai,AI         # 自动包含 chatgpt, oaistatic, oaiusercontent 等
   - GEOSITE,anthropic,AI      # 自动包含 claude 及其所有静态资源域名
   - GEOSITE,xai,AI            # 自动包含 x.ai, grok.com 等
@@ -366,14 +380,12 @@ rules:
   - DOMAIN-SUFFIX,devv.ai,AI
 
   # ==================== Google ====================
-  
   - AND,((NETWORK,udp),(GEOSITE,google)),REJECT-DROP # ✅ 拦截谷歌的 UDP (QUIC) 流量，强制走 TCP 代理更稳定
 
   - GEOSITE,google,Google全家桶   # 这一行直接全包所有谷歌旗下子域名
   - GEOIP,google,Google全家桶     # IP 兜底
 
   # ==================== 国内外兜底 ====================
-
   - GEOSITE,CN,国内
   - GEOIP,CN,国内
 
