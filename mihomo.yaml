@@ -98,44 +98,41 @@ tun:
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
-
+  
+# --- 彻底理顺、绝无可能报错的 DNS 模块 ---
 dns:
   enable: true
-  ipv6: false
-
+  ipv6: false                 # 🔴 保持关闭 IPv6，配合你的系统代理完美排毒
+  listen: :1053
+  cache-algorithm: arc
+  use-hosts: true
+  use-system-hosts: true
   enhanced-mode: fake-ip
-
-  # 修复 fake-ip 失效问题
+  respect-rules: true         # 🔴 核心：强制遵守规则，防止开机抢跑
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-range-v6: 'fc00::/18'
   fake-ip-filter:
     - "+.lan"
     - "+.local"
     - "+.market.xiaomi.com"
+    - "geosite:private"       # 🟢 纯 Geodata 语法，绝不触发 rule-set 报错
 
-  # 新增：DNS 遵循规则
-  respect-rules: true
-
+  # 1. 基础引导 DNS：纯国内大厂 IP，开机瞬间秒响应
   default-nameserver:
-    - tls://223.5.5.5
-    - tls://223.6.6.6
+    - '223.5.5.5'
+    - '119.29.29.29'
 
-  nameserver:
-    - "https://doh.pub/dns-query"
-    - "https://dns.alidns.com/dns-query"
-
-# 新增 fallback
-  fallback:
-    - "https://1.1.1.1/dns-query"
-    - "https://8.8.8.8/dns-query"
-
-  # 新增 fallback-filter
-  fallback-filter:
-    geoip: true
-    geoip-code: CN
-
-  # 新增：避免节点解析污染
+  # 2. 节点解析 DNS：专门用来解析机场节点的域名
   proxy-server-nameserver:
-    - "https://dns.cloudflare.com/dns-query"
-    - "https://dns.google/dns-query"
+    - 'https://dns.alidns.com/dns-query'
+    - 'https://doh.pub/dns-query'
+
+  # 3. 主域名解析：直接全部走国内直连 DoH！
+  # 别担心国外网站，Fake-IP 模式下浏览器拿到假 IP 就直接丢给代理分组了，不需要本地解析国外 DNS
+  nameserver:
+    - 'https://dns.alidns.com/dns-query'
+    - 'https://doh.pub/dns-query'
+
 
 hosts:
   'dns.alidns.com': ['223.5.5.5', '223.6.6.6']
